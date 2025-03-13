@@ -11,11 +11,15 @@
             --primary-light: #3e92cc;
             --secondary: #1e293b;
             --accent: #3e92cc;
+            --accent-bright: #55b0ec;
+            --accent-secondary: #7c5295;
             --light: #f8fafc;
             --dark: #1e293b;
             --text: #334155;
             --text-light: #f8fafc;
             --background: #ffffff;
+            --gradient-bg: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
             --section-padding: 100px 0;
             --slide-min-height: 100vh;
             --border-radius: 12px;
@@ -112,13 +116,34 @@
         
         nav ul li a:hover {
             opacity: 1;
+            color: var(--accent-bright);
         }
         
         /* Title Slide */
         .title-slide {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--gradient-bg);
             color: var(--text-light);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .title-slide .container {
+            position: relative;
+            z-index: 1;
         }
         
         .title-slide h1 {
@@ -126,6 +151,7 @@
             margin-bottom: 20px;
             color: var(--text-light);
             letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .title-slide p {
@@ -205,6 +231,7 @@
         .feature-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--accent-bright);
         }
         
         .feature-icon {
@@ -221,6 +248,14 @@
         .feature-icon i {
             font-size: 28px;
             color: var(--primary);
+        }
+        
+        .feature-card:hover .feature-icon {
+            background-color: rgba(62, 146, 204, 0.2);
+        }
+        
+        .feature-card:hover .feature-icon i {
+            color: var(--accent-bright);
         }
         
         .feature-title {
@@ -249,7 +284,7 @@
             flex-shrink: 0;
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--gradient-bg);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -260,6 +295,7 @@
             margin-right: 40px;
             position: relative;
             z-index: 2;
+            box-shadow: 0 5px 15px rgba(10, 36, 99, 0.2);
         }
         
         .process-content {
@@ -268,6 +304,7 @@
             box-shadow: var(--card-shadow);
             padding: 30px 40px;
             flex-grow: 1;
+            border-left: 3px solid var(--accent);
         }
         
         .process-title {
@@ -306,11 +343,13 @@
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
             transition: var(--transition);
+            border-bottom: 3px solid var(--accent);
         }
         
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border-bottom-color: var(--accent-bright);
         }
         
         .stat-value {
@@ -330,7 +369,7 @@
         /* Team Section */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             margin-top: 30px;
         }
@@ -348,6 +387,7 @@
         .team-member:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--accent-bright);
         }
         
         .team-info {
@@ -390,11 +430,13 @@
             padding: 30px;
             text-align: center;
             transition: var(--transition);
+            border-bottom: 3px solid var(--accent-secondary);
         }
         
         .advisor-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border-bottom-color: var(--accent);
         }
         
         .advisor-role {
@@ -430,6 +472,7 @@
         .roadmap-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-top-color: var(--accent-bright);
         }
         
         .roadmap-date {
@@ -441,15 +484,36 @@
         
         /* CTA Section */
         .cta-slide {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--gradient-bg);
             color: var(--text-light);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder');
+            background-size: cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .cta-slide .container {
+            position: relative;
+            z-index: 1;
         }
         
         .cta-slide h2 {
             color: var(--text-light);
             font-size: 3rem;
             margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .cta-slide p {
@@ -478,15 +542,17 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
         }
         
         /* Highlight Box */
         .highlight-box {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--gradient-accent);
             color: white;
             padding: 40px;
             border-radius: var(--border-radius);
             margin: 50px 0;
+            box-shadow: 0 15px 30px rgba(62, 146, 204, 0.2);
         }
         
         .highlight-box h3 {
@@ -508,6 +574,54 @@
             font-size: 1.3rem;
         }
         
+        /* Market Size Section */
+        .market-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 50px 0;
+            gap: 30px;
+        }
+        
+        .market-stat {
+            flex: 1;
+            min-width: 220px;
+            max-width: 320px;
+            background: var(--background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border-bottom: 3px solid var(--accent-secondary);
+        }
+        
+        .market-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border-bottom-color: var(--accent-bright);
+        }
+        
+        .market-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .market-label {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .market-growth {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        
         /* Testimonials */
         .testimonials {
             margin: 70px 0;
@@ -520,6 +634,7 @@
             padding: 30px;
             margin-bottom: 30px;
             position: relative;
+            border-left: 4px solid var(--accent);
         }
         
         .testimonial-card::before {
@@ -566,6 +681,13 @@
             font-weight: 600;
             color: var(--primary);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .tech-badge:hover {
+            background-color: var(--primary);
+            color: var(--text-light);
+            transform: translateY(-2px);
         }
         
         /* Footer */
@@ -682,6 +804,7 @@
                     <li><a href="#problem">Problem</a></li>
                     <li><a href="#solution">Solution</a></li>
                     <li><a href="#how-it-works">Process</a></li>
+                    <li><a href="#market">Market</a></li>
                     <li><a href="#tech">Technology</a></li>
                     <li><a href="#verticals">Verticals</a></li>
                     <li><a href="#business">Business</a></li>
@@ -805,6 +928,58 @@
         </div>
     </section>
 
+    <!-- Market Size Section (NEW) -->
+    <section class="slide" id="market">
+        <div class="container">
+            <div class="section-title">
+                <h2>Market Opportunity</h2>
+            </div>
+            
+            <div class="content-block">
+                <h3>The booming AI agent market presents immense growth potential</h3>
+                <p>The global AI agent market is experiencing unprecedented growth as businesses across industries recognize the transformative potential of specialized, domain-specific AI solutions. Our position at the intersection of domain expertise and AI infrastructure places us at the forefront of this expanding market.</p>
+            </div>
+            
+            <div class="market-stats">
+                <div class="market-stat">
+                    <div class="market-value">$92B</div>
+                    <div class="market-label">Global AI Agent Market Size (2025)</div>
+                    <div class="market-growth">Growing at 38% CAGR</div>
+                </div>
+                
+                <div class="market-stat">
+                    <div class="market-value">$312B</div>
+                    <div class="market-label">Projected Market Size by 2030</div>
+                    <div class="market-growth">3.4x growth in 5 years</div>
+                </div>
+                
+                <div class="market-stat">
+                    <div class="market-value">67%</div>
+                    <div class="market-label">Enterprises Adopting AI Agents</div>
+                    <div class="market-growth">Up from 23% in 2023</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Why Domain-Specific AI is the Future</h3>
+                <div class="highlight-grid">
+                    <div class="highlight-item">
+                        <h4>Targeted Value Creation</h4>
+                        <p>Domain-specific AI solutions deliver 3-5x more business value than generic AI applications by addressing industry-specific challenges.</p>
+                    </div>
+                    <div class="highlight-item">
+                        <h4>Competitive Advantage</h4>
+                        <p>Organizations deploying specialized AI agents are seeing 42% improvement in operational efficiency compared to competitors using general-purpose AI.</p>
+                    </div>
+                    <div class="highlight-item">
+                        <h4>Accelerating Adoption</h4>
+                        <p>The market for specialized AI agents is growing 1.5x faster than the overall AI market as businesses seek solutions tailored to their specific needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- How It Works Slide -->
     <section class="slide" id="how-it-works">
         <div class="container">
@@ -867,8 +1042,6 @@
                 <h3>Built on cutting-edge AI infrastructure</h3>
                 <p>Our platform is powered by state-of-the-art AI technologies that enable unprecedented performance in domain-specific applications.</p>
             </div>
-            
-
             
             <div class="feature-grid">
                 <div class="feature-card">
@@ -1027,8 +1200,6 @@
                     </div>
                 </div>
             </div>
-            
-
         </div>
     </section>
 
@@ -1123,6 +1294,14 @@
                         <p class="team-bio">Master of Finance from Harvard Extension with extensive experience in quantum computing. Previously founded a successful Quantum Computing Hardware & Software firm, bringing deep technical expertise and entrepreneurial vision to Spin-Up Agentic.</p>
                     </div>
                 </div>
+                
+                <div class="team-member">
+                    <div class="team-info">
+                        <h3 class="team-name">Angelina Krinos</h3>
+                        <div class="team-role">Co-Founder & COO</div>
+                        <p class="team-bio">Stanford graduate with dual degrees in Electrical Engineering and Mechanical Engineering. Brings exceptional leadership experience from roles at SpaceX, Apple, Tesla, and NASA, with expertise in scalable systems, manufacturing optimization, and team building.</p>
+                    </div>
+                </div>
             </div>
             
             <div class="advisors-section">
@@ -1197,7 +1376,7 @@
             });
             
             // Animation on Scroll
-            const animateElements = document.querySelectorAll('.feature-card, .process-step, .stat-card, .team-member, .advisor-card, .roadmap-item');
+            const animateElements = document.querySelectorAll('.feature-card, .process-step, .stat-card, .team-member, .advisor-card, .roadmap-item, .market-stat');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
