@@ -796,6 +796,32 @@
                 font-size: 1rem;
             }
         }
+
+        /* Add loading state styles */
+        .btn-loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .btn-primary.loading .btn-loading {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Add form styles */
+        .contact-form {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -1346,7 +1372,12 @@
         <div class="container">
             <h2>Transform Your Domain Expertise Into Powerful AI Solutions</h2>
             <p>Let us handle the AI infrastructure while you focus on what you do best: delivering specialized value in your domain.</p>
-            <a href="#" class="btn-primary">Schedule a Discovery Call</a>
+            <form id="contact-form" class="contact-form" onsubmit="return handleSubmit(event)">
+                <button type="submit" class="btn-primary" aria-label="Schedule a Discovery Call">
+                    Schedule a Discovery Call
+                    <span class="btn-loading" aria-hidden="true"></span>
+                </button>
+            </form>
         </div>
     </section>
 
@@ -1358,8 +1389,23 @@
     </footer>
 
     <script>
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            const button = event.target.querySelector('.btn-primary');
+            button.classList.add('loading');
+            
+            // Simulate API call
+            setTimeout(() => {
+                button.classList.remove('loading');
+                alert('Thank you for your interest! We will contact you shortly.');
+            }, 1500);
+            
+            return false;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth Scrolling for Anchor Links
+            // Smooth Scrolling for Anchor Links with error handling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1367,47 +1413,74 @@
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
                     
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        const headerOffset = 80; // Adjusted offset to account for fixed header
-                        const elementPosition = targetElement.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    try {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            const headerOffset = 80;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        } else {
+                            console.warn(`Target element ${targetId} not found`);
+                        }
+                    } catch (error) {
+                        console.error('Error during smooth scrolling:', error);
+                        // Fallback to regular scrolling
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ block: 'start' });
+                        }
                     }
                 });
             });
             
-            // Header Background Change on Scroll
+            // Header Background Change on Scroll with throttling
             const header = document.querySelector('header');
+            let ticking = false;
+            
             window.addEventListener('scroll', function() {
-                if (window.scrollY > 100) {
-                    header.style.backgroundColor = 'rgba(10, 36, 99, 0.95)';
-                } else {
-                    header.style.backgroundColor = 'var(--primary)';
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        if (window.scrollY > 100) {
+                            header.style.backgroundColor = 'rgba(10, 36, 99, 0.95)';
+                        } else {
+                            header.style.backgroundColor = 'var(--primary)';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
             });
             
-            // Animation on Scroll
+            // Animation on Scroll with error handling
             const animateElements = document.querySelectorAll('.feature-card, .process-step, .stat-card, .team-member, .advisor-card, .roadmap-item, .market-stat');
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                        observer.unobserve(entry.target);
-                    }
+            try {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1
                 });
-            }, {
-                threshold: 0.1
-            });
-            
-            animateElements.forEach(element => {
-                observer.observe(element);
-            });
+                
+                animateElements.forEach(element => {
+                    observer.observe(element);
+                });
+            } catch (error) {
+                console.error('Error setting up intersection observer:', error);
+                // Fallback: add animation class immediately
+                animateElements.forEach(element => {
+                    element.classList.add('animate-in');
+                });
+            }
 
             // Add aria-expanded state to navigation for mobile
             const nav = document.querySelector('nav');
